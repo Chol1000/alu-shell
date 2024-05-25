@@ -1,0 +1,2 @@
+#!/bin/bash
+echo "$((5#$(echo $WATER | tr 'ewatr' '01234') + 4#$(echo $STIR | tr 'ti.r' '0123')))" | awk '{r="";n=$1;while(n>0){r=substr("bestchol",n%9+1,1)r;n=int(n/9)};print r}'
