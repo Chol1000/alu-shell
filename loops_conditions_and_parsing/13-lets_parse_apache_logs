@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-# This script parses Apache log files using awk
 
-# Define the function to parse the log file
-parse_log() {
-    awk '{ print $1, $9 }' "$1"
-}
-
-# Check if the file exists and is not empty
-if [ -s "$1" ]; then
-    # Parse the log file if it exists and is not empty
-    parse_log "$1"
-else
-    # Print a message if the file is empty or does not exist
-    echo "The log file is either empty or does not exist."
+# Check if the correct number of arguments is provided
+if [ $# -ne 1 ]; then
+    echo "Usage: $0 <apache_log_file>"
+    exit 1
 fi
+
+# Check if the log file exists
+if [ ! -f "$1" ]; then
+    echo "Error: Log file '$1' not found"
+    exit 1
+fi
+
+# Use awk to parse the log file and print the desired output
+awk '{print $1, $9}' "$1"

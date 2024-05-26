@@ -1,4 +1,1 @@
-127.0.0.1
-192.0.228.136 404
-Invalid Entry
-82.235.197.66
+Invalid log entry
