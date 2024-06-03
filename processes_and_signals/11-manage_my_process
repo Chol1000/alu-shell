@@ -1,41 +1,38 @@
 #!/usr/bin/env bash
-# Script for managing the manage_my_process script: start, stop, restart
+# This script manages the manage_my_process daemon.
 
+# Check if PID file exists
 PID_FILE="/var/run/my_process.pid"
-PROCESS_NAME="manage_my_process"
-PROCESS_SCRIPT="./manage_my_process"  # Relative path to the script
 
 case "$1" in
-  start)
-    if [ -f "$PID_FILE" ]; then
-      echo "$PROCESS_NAME is already running"
-    else
-      $PROCESS_SCRIPT &
-      echo $! > "$PID_FILE"
-      echo "$PROCESS_NAME started"
-    fi
-    ;;
-  stop)
-    if [ -f "$PID_FILE" ]; then
-      kill "$(cat "$PID_FILE")"
-      rm -f "$PID_FILE"
-      echo "$PROCESS_NAME stopped"
-    else
-      echo "$PROCESS_NAME is not running"
-    fi
-    ;;
-  restart)
-    if [ -f "$PID_FILE" ]; then
-      kill "$(cat "$PID_FILE")"
-      rm -f "$PID_FILE"
-      echo "$PROCESS_NAME stopped"
-    fi
-    $PROCESS_SCRIPT &
-    echo $! > "$PID_FILE"
-    echo "$PROCESS_NAME restarted"
-    ;;
-  *)
-    echo "Usage: $0 {start|stop|restart}"
-    exit 1
-    ;;
+    start)
+        # Start manage_my_process
+        echo "Starting manage_my_process..."
+        ./manage_my_process &
+        # Save PID to PID file
+        echo $! > "$PID_FILE"
+        echo "manage_my_process started"
+        ;;
+    stop)
+        # Stop manage_my_process
+        echo "Stopping manage_my_process..."
+        kill "$(cat "$PID_FILE")"
+        # Delete PID file
+        rm "$PID_FILE"
+        echo "manage_my_process stopped"
+        ;;
+    restart)
+        # Restart manage_my_process
+        echo "Restarting manage_my_process..."
+        kill "$(cat "$PID_FILE")"
+        ./manage_my_process &
+        # Save new PID to PID file
+        echo $! > "$PID_FILE"
+        echo "manage_my_process restarted"
+        ;;
+    *)
+        # Display usage message for invalid arguments
+        echo "Usage: $0 {start|stop|restart}"
+        exit 1
+        ;;
 esac
