@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
-# Init script to manage the manage_my_process script (start, stop, restart)
+# Script for managing the manage_my_process script: start, stop, restart
 
 PID_FILE="/var/run/my_process.pid"
 PROCESS_NAME="manage_my_process"
-PROCESS_SCRIPT="/path/to/manage_my_process"  # Change this to the actual path of manage_my_process
+PROCESS_SCRIPT="/alu-shell/processes_and_signals/manage_my_process"
 
 case "$1" in
   start)
     if [ -f "$PID_FILE" ]; then
       echo "$PROCESS_NAME is already running"
     else
-      # Start the process in the background and save its PID
       $PROCESS_SCRIPT &
       echo $! > "$PID_FILE"
       echo "$PROCESS_NAME started"
@@ -18,7 +17,6 @@ case "$1" in
     ;;
   stop)
     if [ -f "$PID_FILE" ]; then
-      # Kill the process using its PID and remove the PID file
       kill "$(cat "$PID_FILE")"
       rm -f "$PID_FILE"
       echo "$PROCESS_NAME stopped"
@@ -28,18 +26,15 @@ case "$1" in
     ;;
   restart)
     if [ -f "$PID_FILE" ]; then
-      # Stop the process if it is running
       kill "$(cat "$PID_FILE")"
       rm -f "$PID_FILE"
       echo "$PROCESS_NAME stopped"
     fi
-    # Start the process again and save its PID
     $PROCESS_SCRIPT &
     echo $! > "$PID_FILE"
     echo "$PROCESS_NAME restarted"
     ;;
   *)
-    # Display usage message if the argument is not recognized
     echo "Usage: $0 {start|stop|restart}"
     exit 1
     ;;
