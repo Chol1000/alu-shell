@@ -3,7 +3,7 @@
 
 PID_FILE="/var/run/my_process.pid"
 PROCESS_NAME="manage_my_process"
-PROCESS_SCRIPT="/alu-shell/processes_and_signals/manage_my_process"
+PROCESS_SCRIPT="./manage_my_process"  # Relative path to the script
 
 case "$1" in
   start)
