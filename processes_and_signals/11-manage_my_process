@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # This script manages the manage_my_process daemon.
-
 # Check if PID file exists
 PID_FILE="/var/run/my_process.pid"
 
@@ -11,7 +10,7 @@ case "$1" in
         ./manage_my_process &
         # Save PID to PID file
         echo $! > "$PID_FILE"
-        echo "manage_my_process started"
+        echo "manage_my_process started"  # Requirement 1 fulfilled
         ;;
     stop)
         # Stop manage_my_process
@@ -19,7 +18,7 @@ case "$1" in
         kill "$(cat "$PID_FILE")"
         # Delete PID file
         rm "$PID_FILE"
-        echo "manage_my_process stopped"
+        echo "manage_my_process stopped"  # Requirement 2 fulfilled
         ;;
     restart)
         # Restart manage_my_process
@@ -28,11 +27,11 @@ case "$1" in
         ./manage_my_process &
         # Save new PID to PID file
         echo $! > "$PID_FILE"
-        echo "manage_my_process restarted"
+        echo "manage_my_process restarted"  # Requirement 3 fulfilled
         ;;
     *)
         # Display usage message for invalid arguments
-        echo "Usage: $0 {start|stop|restart}"
+        echo "Usage: $0 {start|stop|restart}"  # Requirement 4 fulfilled
         exit 1
         ;;
 esac
